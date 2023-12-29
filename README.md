@@ -7,6 +7,31 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Installation
+
+Pertama lakukan setup `.env`. Isi `DB_USERNAME` & `DB_PASSWORD`, lalu isi semua bagian `MAIL` dengan email stmp milikmu untuk bisa melalukan reset password.
+
+Terminal Pertama :
+```bash
+composer install
+```
+```bash
+php artisan key:generate
+```
+```bash
+php artisan migrate
+```
+```bash
+php artisan serve
+```
+Terminal kedua :
+```bash
+npm install
+```
+```bash
+npm run dev
+```
+
 ## Migration
 
 Jika ketika melakukan `php artisan migrate` terdapat error "could not find driver", pergi ke file php.ini di file local php mu, lalu hapus tanda `;` di `;extension=pdo_pgsql`.

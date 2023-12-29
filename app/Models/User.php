@@ -12,6 +12,14 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            $user->is_admin = 0;
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**

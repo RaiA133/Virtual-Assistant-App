@@ -30,8 +30,17 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <form onSubmit={submit} className='relative'>
                 <div>
+                    <Link 
+                        href={route('welcome')}
+                        className="btn btn-sm btn-circle btn-ghost absolute right-[-15px] top-[-35px]"
+                    >
+                        ✕
+                    </Link>
+                </div>
+                <div className='mt-7'>
+                    
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput

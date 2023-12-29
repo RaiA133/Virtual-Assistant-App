@@ -25,6 +25,16 @@ export default function Authenticated({ user, header, children }) {
                                     Dashboard
                                 </NavLink>
                             </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('feedback')} active={route().current('feedback')}>
+                                    Feedback
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('administrator')} active={route().current('administrator')}>
+                                    Administrator
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
@@ -94,6 +104,12 @@ export default function Authenticated({ user, header, children }) {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('feedback')} active={route().current('feedback')}>
+                            Feedback
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('administrator')} active={route().current('administrator')}>
+                            Administrator
                         </ResponsiveNavLink>
                     </div>
 
