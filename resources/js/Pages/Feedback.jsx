@@ -19,8 +19,8 @@ const Test = ({ data, auth }) => {
                 <thead>
                   <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Feedback Message</th>
+                    <th>Names</th>
+                    <th className="min-w-[300px]">Feedback Messages</th>
                     <th>Action</th>
                   </tr>
                 </thead>
