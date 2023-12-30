@@ -8,19 +8,19 @@ const FeedbackModalForm = () => {
         </svg>
       </button>
 
-      <dialog id="my_modal_3" class="modal">
-        <div class="modal-box">
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 class="font-bold text-lg">Feedback Box</h3>
-          <p class="py-4">Masukan Saranmu atau laporkan bug</p>
+          <h3 className="font-bold text-lg">Feedback Box</h3>
+          <p className="py-4">Masukan Saranmu atau laporkan bug</p>
           <textarea className="textarea textarea-bordered w-full" placeholder="Message"></textarea>
           <div className="flex justify-end">
             <button className="btn btn-neutral btn-sm mt-3">Submit</button>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
