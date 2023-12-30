@@ -36,7 +36,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/feedback', [MainController::class, 'feedback'])->name('feedback');
-Route::get('/administrator', [MainController::class, 'administrator'])->name('administrator');
+Route::middleware(['auth', 'verified', 'checkUserRole:1,2'])->group(function () {
+    Route::get('/feedback', [MainController::class, 'feedback'])->name('feedback');
+});
+
+Route::middleware(['auth', 'verified', 'checkUserRole:2'])->group(function () {
+    Route::get('/administrator', [MainController::class, 'administrator'])->name('administrator');
+});
 
 require __DIR__.'/auth.php';

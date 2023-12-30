@@ -7,7 +7,7 @@ import { Link } from '@inertiajs/react';
 
 export default function Authenticated({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-  console.log(user)
+
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white border-b border-gray-100">
@@ -25,7 +25,7 @@ export default function Authenticated({ user, header, children }) {
                   Dashboard
                 </NavLink>
               </div>
-              {user.role === 1 && (
+              {user.role !== 0 && (
                 <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                   <NavLink href={route('feedback')} active={route().current('feedback')}>
                     Feedback
@@ -45,13 +45,19 @@ export default function Authenticated({ user, header, children }) {
               <div className="ms-3 relative">
                 <Dropdown>
                   <Dropdown.Trigger>
+                    {user.role !== 0 && (
+                      <span className="indicator-item indicator-middle indicator-start badge badge-neutral">
+                        {user.role === 1 ? "Staf" : "Admin"}
+                      </span>
+                    )}
                     <span className="inline-flex rounded-md">
                       <button
                         type="button"
                         className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                       >
-                        {user.name}
 
+                          {user.name}
+                        
                         <svg
                           className="ms-2 -me-0.5 h-4 w-4"
                           xmlns="http://www.w3.org/2000/svg"
@@ -109,12 +115,16 @@ export default function Authenticated({ user, header, children }) {
             <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
               Dashboard
             </ResponsiveNavLink>
-            <ResponsiveNavLink href={route('feedback')} active={route().current('feedback')}>
-              Feedback
-            </ResponsiveNavLink>
-            <ResponsiveNavLink href={route('administrator')} active={route().current('administrator')}>
-              Administrator
-            </ResponsiveNavLink>
+            {user.role !== 0 && (
+              <ResponsiveNavLink href={route('feedback')} active={route().current('feedback')}>
+                Feedback
+              </ResponsiveNavLink>
+            )}
+            {user.role === 2 && (
+              <ResponsiveNavLink href={route('administrator')} active={route().current('administrator')}>
+                Administrator
+              </ResponsiveNavLink>
+            )}
           </div>
 
           <div className="pt-4 pb-1 border-t border-gray-200">
