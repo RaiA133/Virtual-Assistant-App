@@ -16,7 +16,7 @@ class User extends Authenticatable
     {
         parent::boot();
         static::creating(function ($user) {
-            $user->is_admin = 0;
+            $user->role = 0;
         });
     }
 
@@ -29,7 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
+        'role',
     ];
 
     /**

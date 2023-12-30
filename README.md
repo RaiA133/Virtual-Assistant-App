@@ -11,7 +11,7 @@
 
 Pertama lakukan setup `.env`. Isi `DB_USERNAME` & `DB_PASSWORD`, lalu isi semua bagian `MAIL` dengan email stmp milikmu untuk bisa melalukan reset password.
 
-Terminal Pertama :
+#### Terminal Pertama :
 ```bash
 composer install
 ```
@@ -21,10 +21,14 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
+```bash 
+php artisan db:seed --class=UserSeeder
+```
+Gunakan perintah `php artisan db:seed --class=UserSeeder` untuk melakukan seed, tanpa --class proses seed tidak akan berjalan.
 ```bash
 php artisan serve
 ```
-Terminal kedua :
+#### Terminal kedua :
 ```bash
 npm install
 ```

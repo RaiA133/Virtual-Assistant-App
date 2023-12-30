@@ -1,6 +1,7 @@
 import UserLogo from '@/Assets/icon/UserLogo.svg';
 import HeadsetLogo from '@/Assets/icon/HeadsetLogo.svg';
 import { useEffect, useRef } from "react";
+import Markdown from 'https://esm.sh/react-markdown@9';
 
 const ChatBoxMessage = ({ messages, setMessages, typing, setTyping }) => {
 
@@ -20,28 +21,14 @@ const ChatBoxMessage = ({ messages, setMessages, typing, setTyping }) => {
                 <img alt="User Logo" src={data.sender === "VAssist" ? HeadsetLogo : UserLogo} className='p-2' />
               </div>
             </div>
-            <div className="chat-bubble bg-gray-100 text-black">{data.message}</div>
+            <div className={`chat-bubble bg-gray-100 text-black content ${data.sender === "VAssist" ? "overflow-auto" : ""}`}>
+              <Markdown>
+                {data.message}
+              </Markdown>
+            </div>
           </div>
         );
       })}
-
-      {/* <div className="chat chat-start">
-        <div className="chat-image avatar">
-          <div className="w-10 rounded-full bg-gray-100">
-            <img alt="User Logo" src={HeadsetLogo} className='p-2' />
-          </div>
-        </div>
-        <div className="chat-bubble bg-gray-100 text-black">You were the Chosen One!</div>
-      </div>
-
-      <div className="chat chat-end">
-        <div className="chat-image avatar">
-          <div className="w-10 rounded-full bg-gray-100">
-            <img alt="User Logo" src={UserLogo} className='p-2' />
-          </div>
-        </div>
-        <div className="chat-bubble bg-gray-100 text-black">I hate you!</div>
-      </div> */}
 
     </>
   );

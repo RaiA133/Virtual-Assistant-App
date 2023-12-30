@@ -10,10 +10,10 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 export default function Dashboard({ auth }) {
   const user = usePage().props.auth.user; // get data user yang kita login kan
   const [inputText, setInputText] = useState(""); // State untuk menyimpan nilai input teks
-  const [typing, setTyping] = useState(null)
-  const [messages, setMessages] = useState([
+  const [typing, setTyping] = useState(null) // state handle loading chat
+  const [messages, setMessages] = useState([ // seluruh pesan di chat box
     {
-      message: "Hello, saya asistenmu",
+      message: `Hallo ${user.name}, Saya virtual asistenmu`,
       sender: "VAssist"
     }
   ])
@@ -43,7 +43,7 @@ export default function Dashboard({ auth }) {
 
     const systemMessage = {
       role: "system",
-      content: "Cara center sebuah div ? "
+      content: "Berbicara seperti seorang asisten pribadi"
     }
 
     const apiRequestBody = {
@@ -90,13 +90,13 @@ export default function Dashboard({ auth }) {
         </div>
       </div> */}
 
-      <div className="pt-12">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="pt-5">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg py-5 ">
 
             <div className='max-h-96 overflow-auto px-5'>
-              <ChatBoxMessage 
-                messages={messages} setMessages={setMessages} 
+              <ChatBoxMessage
+                messages={messages} setMessages={setMessages}
                 typing={typing} setTyping={setTyping}
               />
               {typing && (
