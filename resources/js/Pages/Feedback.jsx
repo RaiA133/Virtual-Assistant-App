@@ -1,9 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
+import FeedbackTable from './Feedback/FeedbackTable';
+import Paginator from './Feedback/Paginator';
 
-const Test = ({ feedbacks, auth }) => {
-  const user = usePage().props.auth.user;
-
+const Feedback = ({ feedbacks, auth }) => {
+  // console.log(usePage().props)
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -15,38 +16,16 @@ const Test = ({ feedbacks, auth }) => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5">
             <div className="overflow-x-auto">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Names</th>
-                    <th className="min-w-[300px]">Feedback Messages</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {feedbacks.map((feedback, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{feedback.name}</td>
-                      <td>{feedback.feedback_message}</td>
-                      <td className='flex items-center'>
-                        <button className='btn btn-xs'>delete</button>
-                      </td>
-                    </tr>
-                  ))}
-
-                </tbody>
-              </table>
+              <FeedbackTable feedbacks={feedbacks.data} />
             </div>
           </div>
+          <Paginator meta={feedbacks.meta} />
         </div>
       </div>
+      
 
     </AuthenticatedLayout>
   );
 }
 
-export default Test;
+export default Feedback;

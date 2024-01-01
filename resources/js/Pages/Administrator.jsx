@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 
-const Test = ({ data, auth }) => {
+const Administrator = ({ data, auth }) => {
   const user = usePage().props.auth.user;
   return (
     <AuthenticatedLayout
@@ -14,4 +14,4 @@ const Test = ({ data, auth }) => {
   );
 }
 
-export default Test;
+export default Administrator;
