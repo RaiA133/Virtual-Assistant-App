@@ -16,7 +16,7 @@ const Feedback = ({ feedbacks, auth }) => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5">
             <div className="overflow-x-auto">
-              <FeedbackTable feedbacks={feedbacks.data} />
+              <FeedbackTable feedbacks={feedbacks.data} meta={feedbacks.meta} />
             </div>
           </div>
           <Paginator meta={feedbacks.meta} />

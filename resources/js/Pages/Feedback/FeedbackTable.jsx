@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
-const FeedbackTable = ({ feedbacks }) => {
+const FeedbackTable = ({ feedbacks, meta}) => {
   const [curentFeedback, setCurentFeedback] = useState([])
 
   return (
@@ -20,7 +20,7 @@ const FeedbackTable = ({ feedbacks }) => {
 
           {feedbacks.map((feedback, i) => (
             <tr key={i}>
-              <th>{feedback.id}</th>
+              <th>{i + meta.from}</th>
               <td>{feedback.name}</td>
               <td>{feedback.feedback_message}</td>
               <td className='flex items-center'>
