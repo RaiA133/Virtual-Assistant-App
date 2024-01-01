@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Feedback;
 
 class MainController extends Controller
 {
@@ -17,12 +18,13 @@ class MainController extends Controller
     {
         return Inertia::render('Dashboard', [
             'username' => 'asd',
+            'success_send_feedback' => session('success'),
         ]);
     }
     public function feedback()
     {
         return Inertia::render('Feedback', [
-            'data' => "feedback"
+            'feedbacks' => Feedback::all()
         ]);
     }
     public function administrator()

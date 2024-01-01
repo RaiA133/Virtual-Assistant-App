@@ -7,7 +7,7 @@ import HeadsetLogo from '@/Assets/icon/HeadsetLogo.svg';
 
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, success_send_feedback }) {
   const user = usePage().props.auth.user; // get data user yang kita login kan
   const [inputText, setInputText] = useState(""); // State untuk menyimpan nilai input teks
   const [typing, setTyping] = useState(null) // state handle loading chat
@@ -18,7 +18,12 @@ export default function Dashboard({ auth }) {
     }
   ])
 
-  const handleSend = async () => {
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (!inputText) {
+      console.error('Input is required');
+      return;
+    }
     const newMessage = {
       message: inputText,
       sender: "user"
@@ -115,24 +120,27 @@ export default function Dashboard({ auth }) {
               )}
             </div>
 
-            <div className='flex mt-4 gap-3 mx-5'>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-              />
-              <button className={`btn btn-neutral ${typing ? "btn-disabled" : ""}`} onClick={handleSend}>
-                Submit
-              </button>
-            </div>
+            <form onSubmit={handleSend}>
+              <div className='flex mt-4 gap-3 mx-5'>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  className="input input-bordered w-full"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  required
+                />
+                <button className={`btn btn-neutral ${typing ? "btn-disabled" : ""}`} type='submit'>
+                  Submit
+                </button>
+              </div>
+            </form>
 
           </div>
         </div>
       </div>
 
-      <FeedbackModalForm />
+      <FeedbackModalForm success_send_feedback={success_send_feedback} />
 
     </AuthenticatedLayout>
   );

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Feedback\MessageController;
 use App\Http\Controllers\MainController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,5 +44,7 @@ Route::middleware(['auth', 'verified', 'checkUserRole:1,2'])->group(function () 
 Route::middleware(['auth', 'verified', 'checkUserRole:2'])->group(function () {
     Route::get('/administrator', [MainController::class, 'administrator'])->name('administrator');
 });
+
+Route::post('/feedback/store', [MessageController::class, 'store'])->name('feedback.store');
 
 require __DIR__.'/auth.php';

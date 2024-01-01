@@ -5,6 +5,7 @@ import Markdown from 'https://esm.sh/react-markdown@9';
 
 const ChatBoxMessage = ({ messages, setMessages, typing, setTyping }) => {
 
+  // auto scroll ke bottom chat
   const scroll = useRef()
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" })
