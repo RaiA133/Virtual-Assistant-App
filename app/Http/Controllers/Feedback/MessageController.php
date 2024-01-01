@@ -23,12 +23,17 @@ class MessageController extends Controller
             'name' => 'required|string|max:255',
             'feedback_message' => 'required|string|max:255',  // Remove extra pipe here
         ]);
-
         Feedback::create([
             'name' => $request->name,
             'feedback_message' => $request->feedback_message,
         ]);
+        return redirect()->back()->with('success', 'Feedback berhasil dikirim!');
+    }
 
-        return back()->with('success', 'Feedback berhasil dikirim!');
+    public function destroy(Request $request) 
+    {
+        $feedback = Feedback::find($request->id);
+        $feedback->delete();
+        return redirect()->back()->with('success', 'Feedback berhasil dihapus!');
     }
 }

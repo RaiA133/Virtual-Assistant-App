@@ -24,9 +24,7 @@ class MainController extends Controller
     }
     public function feedback()
     {
-        $feedbacks = new FeedbackCollection(Feedback::paginate(5));
-        // $feedbacks = Feedback::all();
-        // dd($feedbacks);
+        $feedbacks = new FeedbackCollection(Feedback::orderBy('id', 'DESC')->paginate(5)); // di paginate + order terbaru
         return Inertia::render('Feedback', [
             'feedbacks' => $feedbacks,
         ]);
