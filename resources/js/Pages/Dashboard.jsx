@@ -1,22 +1,53 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, useForm } from '@inertiajs/react';
 import ChatBoxMessage from './Dashboard/ChatBoxMessage';
 import FeedbackModalForm from '@/Components/FeedbackModalForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HeadsetLogo from '@/Assets/icon/HeadsetLogo.svg';
 
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, dbMessages }) {
   const user = usePage().props.auth.user; // get data user yang kita login kan
   const [inputText, setInputText] = useState(""); // State untuk menyimpan nilai input teks
   const [typing, setTyping] = useState(null) // state handle loading chat
+  const [isMessagesSet, setIsMessagesSet] = useState(false);
+  const [senderState, setSenderState] = useState("user");
   const [messages, setMessages] = useState([ // seluruh pesan di chat box
     {
       message: `Hallo ${user.name}, Saya virtual asistenmu`,
       sender: "VAssist"
     }
   ])
+
+  useEffect(() => {
+    if (!isMessagesSet) {
+      const newMessages = [
+        ...messages,
+        ...dbMessages.map(msg => ({
+          message: msg.message,
+          sender: msg.sender,
+        })),
+      ];
+      setMessages(newMessages);
+      setIsMessagesSet(true);
+    }
+    return () => { // Clean-up function
+      console.log("Clean-up function executed");
+    };
+  }, [dbMessages, isMessagesSet]);
+
+
+  // console.log('messages', messages)
+
+  const { data, setData, post, processing, errors, reset } = useForm({ // for input to database
+    user_id: user.id,
+    name: user.name,
+    sender: senderState,
+    message: inputText,
+  });
+  console.log('asd', data)
+  console.log('senderState', senderState)
 
   const handleSend = async () => {
     const newMessage = {
@@ -26,19 +57,20 @@ export default function Dashboard({ auth }) {
     const newMessages = [...messages, newMessage];
     setMessages(newMessages);
     setInputText(""); // clear text di input text ketika kirim pesan
-    setTyping(true); // handle true loading VAssist typing
-    await processMessageToChatGPT(newMessages);
+    setTyping(true); // handle true loading VAssist typing 
+    await processMessageToChatGPT(newMessages); // trigger ChatGPT to response
+    await saveToDb()
   };
 
   async function processMessageToChatGPT(chatMessages) {
     let apiMessages = chatMessages.map((messageObject) => {
       let role = "";
       if (messageObject.sender === "VAssist") {
-        role = "assistant"
+        role = "assistant" // chatGPT only knew assistant/user (role)
       } else {
         role = "user"
       }
-      return { role, content: messageObject.message }
+      return { role, content: messageObject.message } // chatGPT only response with role & content, jadi diubah
     })
 
     const systemMessage = {
@@ -64,16 +96,21 @@ export default function Dashboard({ auth }) {
     }).then((data) => {
       return data.json();
     }).then((data) => {
-      // console.log(data);
+      const responseGPT = { // chatGPT data response
+        message: data.choices[0].message.content,
+        sender: "VAssist"
+      }
       setMessages(
-        [...chatMessages, {
-          message: data.choices[0].message.content,
-          sender: "VAssist"
-        }]
+        [...chatMessages, responseGPT]
       )
       setTyping(false)
     })
   }
+
+  async function saveToDb() {
+    console.log("Sender State before saving to DB:", senderState); // Add this line
+    post(route('message.store'));
+  }  
 
   return (
     <AuthenticatedLayout
@@ -99,7 +136,7 @@ export default function Dashboard({ auth }) {
                 messages={messages} setMessages={setMessages}
                 typing={typing} setTyping={setTyping}
               />
-              {typing && (
+              {typing && ( // loading hendler message
                 <div className="chat chat-start">
                   <div className="chat-image avatar">
                     <div className="w-10 rounded-full bg-gray-100">
@@ -121,7 +158,10 @@ export default function Dashboard({ auth }) {
                 placeholder="Type here"
                 className="input input-bordered w-full"
                 value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+                onChange={(e) => {
+                  setInputText(e.target.value)
+                  setData('message', e.target.value)
+                }}
               />
               <button className={`btn btn-neutral ${typing ? "btn-disabled" : ""}`} onClick={handleSend}>
                 Submit
