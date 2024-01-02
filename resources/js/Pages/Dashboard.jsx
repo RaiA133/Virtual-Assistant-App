@@ -7,7 +7,7 @@ import HeadsetLogo from '@/Assets/icon/HeadsetLogo.svg';
 
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-export default function Dashboard({ auth, dbMessages }) {
+export default function Dashboard({ auth, dbMessages, success_send_feedback }) {
   const user = usePage().props.auth.user; // get data user yang kita login kan
   const [inputText, setInputText] = useState(""); // State untuk menyimpan nilai input teks
   const [typing, setTyping] = useState(null) // state handle loading chat
@@ -36,7 +36,6 @@ export default function Dashboard({ auth, dbMessages }) {
       console.log("Clean-up function executed");
     };
   }, [dbMessages, isMessagesSet]);
-
 
   // console.log('messages', messages)
 
@@ -172,7 +171,7 @@ export default function Dashboard({ auth, dbMessages }) {
         </div>
       </div>
 
-      <FeedbackModalForm />
+      <FeedbackModalForm success_send_feedback={success_send_feedback} />
 
     </AuthenticatedLayout>
   );

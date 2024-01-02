@@ -1,6 +1,21 @@
-const FeedbackModalForm = () => {
+import InputError from '@/Components/InputError';
+import { usePage, useForm } from '@inertiajs/react';
+
+const FeedbackModalForm = ({ success_send_feedback }) => {
+  const user = usePage().props.auth.user;
+  const { data, setData, post, processing, errors, reset } = useForm({
+    name: user.name,
+    feedback_message: ''
+  });
+  
+  const submit = (e) => {
+    e.preventDefault();
+    post(route('feedback.store'));
+    reset();
+  };
+  
   return (
-    <div className="mr-5">
+    <div className="mr-5 mt-5">
 
       <button className='btn btn-neutral float-right shadow-sm rounded-lg' onClick={() => document.getElementById('my_modal_3').showModal()}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -15,10 +30,23 @@ const FeedbackModalForm = () => {
           </form>
           <h3 className="font-bold text-lg">Feedback Box</h3>
           <p className="py-4">Masukan Saranmu atau laporkan bug</p>
-          <textarea className="textarea textarea-bordered w-full" placeholder="Message"></textarea>
-          <div className="flex justify-end">
-            <button className="btn btn-neutral btn-sm mt-3">Submit</button>
-          </div>
+          {success_send_feedback && <div className="mb-4 font-medium text-sm text-green-600">{success_send_feedback}</div>}
+          <form onSubmit={submit}>
+            <textarea 
+              className="textarea textarea-bordered w-full" 
+              name="feedback_message"
+              value={data.feedback_message}
+              onChange={(e) => setData('feedback_message', e.target.value)}
+              placeholder="Message"
+              required
+            ></textarea>
+
+            <InputError message={errors.name} className="mt-2" />
+
+            <div className="flex justify-end">
+              <button className="btn btn-neutral btn-sm mt-3" type="submit">Submit</button>
+            </div>
+          </form>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
