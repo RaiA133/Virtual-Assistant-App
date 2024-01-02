@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class MessageController extends Controller
+class FeedbackController extends Controller
 {
     /**
      * Store a newly created feedback in storage.
