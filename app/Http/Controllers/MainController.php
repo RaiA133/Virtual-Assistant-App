@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Resources\FeedbackCollection;
 use Illuminate\Http\Request;
 use App\Models\Feedback;
+use App\Models\Message;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,9 +18,11 @@ class MainController extends Controller
 {
     public function dashboard(Request $request): Response
     {
+        $messages = Message::all();
         return Inertia::render('Dashboard', [
             'username' => 'asd',
             'success_send_feedback' => session('success'),
+            'dbMessages' => $messages,
         ]);
     }
     public function feedback()

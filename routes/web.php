@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Feedback\MessageController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\Message\MessageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/feedback/store', [MessageController::class, 'store'])->name('feedback.store');
+    Route::post('/message/store', [MessageController::class, 'store'])->name('message.store');
 });
 
 
